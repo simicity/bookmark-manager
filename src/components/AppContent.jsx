@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import BookmarkCard from './BookmarkCard';
 import { getBookmarks } from '../utils/local-storage-handler';
+import Grid from '@mui/material/Grid';
 
 function AppContent({ formSubmitted, submitForm, resetForm }) {
   const [bookmarks, setBookmarks] = useState([]);
@@ -18,13 +19,17 @@ function AppContent({ formSubmitted, submitForm, resetForm }) {
   console.log(bookmarks);
   return (
     <>
-      {bookmarks && bookmarks.length > 0 ? (
-        bookmarks.map((bookmark) => (
-          <BookmarkCard key={bookmark.id.toString()} bookmark={bookmark} submitForm={submitForm} />
-        ))
-      ) : (
-        <p>No Bookmarks</p>
-      )}
+      <Grid container spacing={3}>
+        {bookmarks && bookmarks.length > 0 ? (
+          bookmarks.map((bookmark) => (
+            <Grid item xs={3} key={bookmark.id}>
+              <BookmarkCard key={bookmark.id} bookmark={bookmark} submitForm={submitForm} />
+            </Grid>
+          ))
+        ) : (
+          <p>No Bookmarks</p>
+        )}
+      </Grid>
     </>
   );
 }

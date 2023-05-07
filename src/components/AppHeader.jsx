@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import BookmarkModal from './BookmarkModal';
 import Typography from '@mui/material/Typography';
+import './../App.css';
 
 function AppHeader({ submitForm }) {
   const [open, setOpen] = React.useState(false);
@@ -11,10 +12,12 @@ function AppHeader({ submitForm }) {
 
   return (
     <>
-      <Typography variant="h5" component="div">
-        Bookmarks
-      </Typography>
-      <Button onClick={handleModalOpen}>Add Bookmark</Button>
+      <div className="AppTitle">
+        <Typography variant="h4" component="h1">
+          Bookmarks
+        </Typography>
+        <Button onClick={handleModalOpen}>Add Bookmark</Button>
+      </div>
       <Modal
           open={open}
           onClose={handleModalClose} 

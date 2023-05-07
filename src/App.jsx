@@ -9,10 +9,10 @@ function App() {
   const resetForm = () => setFormSubmitted(false);
 
   return (
-    <>
+    <div className="App">
       <AppHeader submitForm={submitForm} />
       <AppContent formSubmitted={formSubmitted} submitForm={submitForm} resetForm={resetForm} />
-    </>
+    </div>
   )
 }
 

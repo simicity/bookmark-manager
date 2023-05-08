@@ -17,8 +17,8 @@ function AppHeader({ submitForm }) {
         <Typography variant="h4" component="h1">
           Bookmarks
         </Typography>
-        <Fab size="small" color="primary" aria-label="add" onClick={handleModalOpen}>
-          <AddIcon />
+        <Fab size="small" color="primary" sx={{ boxShadow: "none", border: "2px solid black" }} aria-label="add" onClick={handleModalOpen}>
+          <AddIcon sx={{ color: "black" }} />
         </Fab>
       </Box>
       <Modal

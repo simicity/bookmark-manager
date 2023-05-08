@@ -4,7 +4,8 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
+import InputBase from '@mui/material/InputBase';
+import FormHelperText from '@mui/material/FormHelperText';
 
 const style = {
   position: 'absolute',
@@ -14,6 +15,7 @@ const style = {
   width: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
+  borderRadius: '12px',
   boxShadow: 24,
   p: 4,
 };
@@ -65,13 +67,17 @@ function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
   return (
     <>
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+        <Typography variant="h6" component="h2" sx={{ mb: 1 }}>
           {type === 'add' ? 'Add' : 'Update'} Bookmark
         </Typography>
         <form onSubmit={handleSubmit}>
-          <TextField id="outlined-basic" label="Name" variant="outlined" size="small" value={name} onChange={(event) => setName(event.target.value)} />
-          <TextField id="outlined-basic" label="URL" variant="outlined" size="small" value={url} onChange={(event) => setUrl(event.target.value)} />
-          <Stack spacing={2} direction="row">
+          <Stack direction="column">
+            <FormHelperText sx={{ color: "black", ml: 1 }}>Name</FormHelperText>
+            <InputBase label="Name" placeholder="Name" size="small" sx={{ border: "2px solid black", borderRadius: "10px", mb: 2, p: 1, pb: 0 }} value={name} onChange={(event) => setName(event.target.value)} />
+            <FormHelperText sx={{ color: "black", ml: 1 }}>URL</FormHelperText>
+            <InputBase label="URL" placeholder="URL" size="small" sx={{ border: "2px solid black", borderRadius: "10px", mb: 2, p: 1, pb: 0 }} value={url} onChange={(event) => setUrl(event.target.value)} />
+          </Stack>
+          <Stack spacing={1} direction="row" sx={{display: "flex", justifyContent: "right"}}>
             <Button onClick={handleModalClose}>Cancel</Button>
             <Button type="submit" variant="contained">{type === 'add' ? 'Add' : 'Update'}</Button>
           </Stack>

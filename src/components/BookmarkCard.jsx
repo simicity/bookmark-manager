@@ -1,26 +1,95 @@
-import React from 'react';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Modal from '@mui/material/Modal';
 import BookmarkModal from './BookmarkModal';
 import { deleteBookmark } from '../utils/local-storage-handler';
-import "./../App.css";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
+const getFavicon = ((url) => {
+  return 'http://www.google.com/s2/favicons?domain=' + url;
+});
+
+const BookmarkMenu = ((handleModalOpen, deleteThisBookmark) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return(
+    <Box sx={{ display: 'flex', alignItems: 'top' }}>
+      <IconButton
+        aria-label="more"
+        aria-controls={open ? 'long-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          'aria-labelledby': 'long-button',
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            width: '10ch',
+          },
+        }}
+      >
+        <MenuItem key="bookmark-edit" onClick={handleModalOpen}>
+          Edit
+        </MenuItem>
+        <MenuItem key="bookmark-delete" onClick={deleteThisBookmark}>
+          Delete
+        </MenuItem>
+      </Menu>
+    </Box>
+  );
+});
 
 const card = ((bookmark, handleModalOpen, deleteThisBookmark) => {
   return(
-      <React.Fragment>
-        <Link href={bookmark.url} underline="none">
-          <Typography variant="body1" component="div">
-            {bookmark.name}
-          </Typography>
-        </Link>
-        <div>
-          <Button size="small" onClick={handleModalOpen}>Edit</Button>
-          <Button size="small" onClick={deleteThisBookmark}>Delete</Button>
-        </div>
-      </React.Fragment>
+    <Card
+      variant="outlined"
+      sx={{ borderColor: 'black', borderWidth: '2px', borderRadius: '12px', minWidth: '200px' }}
+    >
+      <Grid container>
+        <Grid item xs={10} sx={{ display: 'flex', alignItems: 'center' }}>
+          <Link href={bookmark.url} underline="none" sx={{ color: 'text.primary' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <CardMedia
+                component="img"
+                sx={{ width: 20, height: 20, m: 1, borderRadius: '4px' }}
+                image={getFavicon(bookmark.url)}
+                alt={bookmark.name.charAt(0)}
+              />
+              <Typography component="div" variant="body1">
+                {bookmark.name}
+              </Typography>
+            </Box>
+          </Link>
+        </Grid>
+        <Grid item xs={2}>
+          {BookmarkMenu(handleModalOpen, deleteThisBookmark)}
+        </Grid>
+      </Grid>
+    </Card>
   );
 });
 
@@ -35,9 +104,7 @@ function BookmarkCard({ bookmark, submitForm }) {
 
   return (
     <>
-      <Paper elevation={6}>
-        {card(bookmark, handleModalOpen, deleteThisBookmark)}
-      </Paper>
+      {card(bookmark, handleModalOpen, deleteThisBookmark)}
       
       <Modal
         open={open}

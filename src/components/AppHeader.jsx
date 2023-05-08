@@ -1,9 +1,10 @@
 import React from 'react';
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import BookmarkModal from './BookmarkModal';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import './../App.css';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 function AppHeader({ submitForm }) {
   const [open, setOpen] = React.useState(false);
@@ -12,12 +13,14 @@ function AppHeader({ submitForm }) {
 
   return (
     <>
-      <div className="AppTitle">
+      <Box className="AppTitle" sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
         <Typography variant="h4" component="h1">
           Bookmarks
         </Typography>
-        <Button onClick={handleModalOpen}>Add Bookmark</Button>
-      </div>
+        <Fab size="small" color="primary" aria-label="add" onClick={handleModalOpen}>
+          <AddIcon />
+        </Fab>
+      </Box>
       <Modal
           open={open}
           onClose={handleModalClose} 

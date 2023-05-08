@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import './../App.css';
 
 const style = {
   position: 'absolute',
@@ -73,7 +72,7 @@ function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
           <TextField id="outlined-basic" label="Name" variant="outlined" size="small" value={name} onChange={(event) => setName(event.target.value)} />
           <TextField id="outlined-basic" label="URL" variant="outlined" size="small" value={url} onChange={(event) => setUrl(event.target.value)} />
           <Stack spacing={2} direction="row">
-            <Button variant="outlined" onClick={handleModalClose}>Cancel</Button>
+            <Button onClick={handleModalClose}>Cancel</Button>
             <Button type="submit" variant="contained">{type === 'add' ? 'Add' : 'Update'}</Button>
           </Stack>
         </form>

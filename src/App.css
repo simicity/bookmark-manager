@@ -1,19 +1,26 @@
 body {
   background-color: #F8F9F9;
   display: flex;
-  place-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  max-width: 1920px;
+  margin: auto;
+  padding: 2rem;
 }
 
 .App {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  min-width: 300px;
 }
 
-.AppTitle {
-  position: absolute;
-  top: 50px;
+@media (min-width: 890px) {
+  .App {
+    width: 700px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .App {
+    width: 960px;
+  }
 }

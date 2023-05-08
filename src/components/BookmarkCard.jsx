@@ -71,15 +71,15 @@ const card = ((bookmark, handleModalOpen, deleteThisBookmark) => {
     >
       <Grid container>
         <Grid item xs={10} sx={{ display: 'flex', alignItems: 'center' }}>
-          <Link href={bookmark.url} underline="none" sx={{ color: 'text.primary' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Link href={bookmark.url} underline="none" sx={{ color: 'inherit', display: 'block', width: '100%', height: '100%' }}>
+            <Box sx={{ display: 'flex', alignItems: 'start' }}>
               <CardMedia
                 component="img"
                 sx={{ width: 20, height: 20, m: 1, borderRadius: '4px' }}
                 image={getFavicon(bookmark.url)}
                 alt={bookmark.name.charAt(0)}
               />
-              <Typography component="div" variant="body1">
+              <Typography component="div" variant="body1" sx={{ m: 1 }}>
                 {bookmark.name}
               </Typography>
             </Box>

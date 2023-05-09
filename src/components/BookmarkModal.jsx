@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useForm } from "react-hook-form";
 import { createBookmark, updateBookmark } from '../utils/local-storage-handler';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -21,46 +21,21 @@ const style = {
 };
 
 function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
-  const [name, setName] = useState('');
-  const [url, setUrl] = useState('');
+  const { register, handleSubmit } = useForm();
 
-  useEffect(() => {
-    if (type === 'update' && bookmark) {
-      setName(bookmark.name);
-      setUrl(bookmark.url);
-    } else {
-      setName('');
-      setUrl('');
-    }
-  }, [type, bookmark]);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (name === '') {
-        // toast.error('Please enter a name');
-        return;
-    }
-    const bookmarkFromForm = {name, url};
+  const onSubmit = async (data) => {
     if (type === 'add') {
-      await createBookmark(bookmarkFromForm).
+      await createBookmark(data).
       then(() => {
         submitForm();
         handleModalClose();  
       });
-      // toast.success('Task added successfully');
     } else if (type === 'update') {
-      if (bookmark.name !== name || bookmark.url !== url) {
-        await updateBookmark(bookmark.id, bookmarkFromForm).
-        then(() => {
-          submitForm();
-          handleModalClose();
-        });
-        // toast.success('Task Updated successfully');
-      } else {
+      await updateBookmark(bookmark.id, data).
+      then(() => {
+        submitForm();
         handleModalClose();
-        // toast.error('No changes made');
-        return;
-      }
+      });
     }
   };
 
@@ -70,12 +45,34 @@ function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
         <Typography variant="h6" component="h2" sx={{ mb: 1 }}>
           {type === 'add' ? 'Add' : 'Update'} Bookmark
         </Typography>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Stack direction="column">
             <FormHelperText sx={{ color: "black", ml: 1 }}>Name</FormHelperText>
-            <InputBase label="Name" placeholder="Name" size="small" sx={{ border: "2px solid black", borderRadius: "10px", mb: 2, p: 1, pb: 0 }} value={name} onChange={(event) => setName(event.target.value)} />
+            <InputBase 
+              label="Name" 
+              placeholder="Name" 
+              size="small" 
+              defaultValue={bookmark ? bookmark.name : ""} 
+              sx={{ 
+                border: "2px solid black", 
+                borderRadius: "10px", 
+                mb: 2, 
+                p: 1, 
+                pb: 0 
+                }} 
+              {...register("name", { required: true, maxLength: 100 })}
+              />
             <FormHelperText sx={{ color: "black", ml: 1 }}>URL</FormHelperText>
-            <InputBase label="URL" placeholder="URL" size="small" sx={{ border: "2px solid black", borderRadius: "10px", mb: 2, p: 1, pb: 0 }} value={url} onChange={(event) => setUrl(event.target.value)} />
+            <InputBase 
+              label="URL" 
+              placeholder="URL" 
+              size="small" 
+              defaultValue={bookmark ? bookmark.url : ""} 
+              sx={{ 
+                border: "2px solid black", 
+                borderRadius: "10px", mb: 2, p: 1, pb: 0 }} 
+                {...register("url", { required: true, maxLength: 1000 })}
+                />
           </Stack>
           <Stack spacing={1} direction="row" sx={{display: "flex", justifyContent: "right"}}>
             <Button onClick={handleModalClose}>Cancel</Button>

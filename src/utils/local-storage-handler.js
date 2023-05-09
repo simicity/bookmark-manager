@@ -2,7 +2,8 @@ import localforage from "localforage";
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 
-/* local storage schema
+/* local storage schema */
+/* ------------------------
   Bookmark (
     id, // primary key
     labels (
@@ -11,7 +12,7 @@ import sortBy from "sort-by";
     name,
     url,
   )
-*/
+------------------------ */
 
 // set([
 //   {
@@ -32,21 +33,28 @@ import sortBy from "sort-by";
 //   },
 // ]);
 
-let uniqueLabels = new Set();
-// updateUniqueLabels();
+// fake a cache so we don't slow down stuff we've already seen
+let fakeCache = {};
 
-function updateUniqueLabels() {
-  // getBookmarks().forEach(bookmark => addUniqueLabels(bookmark.labels));
+let uniqueLabels = new Set();
+addUniqueLabels(['news', 'tech', 'blog']);
+updateUniqueLabels();
+
+async function updateUniqueLabels() {
+  await getBookmarks()
+  .then((bookmark) => {
+    if(bookmark.labels) addUniqueLabels(bookmark.labels);
+  });
 }
 
-function addUniqueLabels(/*labels*/) {
-  // for (let label of labels) {
-  //   uniqueLabels.add(label.lower());
-  // }
+function addUniqueLabels(labels) {
+  for (let label of labels) {
+    uniqueLabels.add(label.toLowerCase());
+  }
 }
 
 export function getUniqueLabels() {
-  return uniqueLabels;
+  return Array.from(uniqueLabels);
 }
 
 export async function getBookmarks(label) {
@@ -105,9 +113,6 @@ export async function deleteBookmark(id) {
 function set(bookmarks) {
   return localforage.setItem("bookmarks", bookmarks);
 }
-
-// fake a cache so we don't slow down stuff we've already seen
-let fakeCache = {};
 
 async function fakeNetwork(key) {
   if (!key) {

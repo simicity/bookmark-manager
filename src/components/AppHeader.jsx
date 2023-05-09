@@ -5,15 +5,16 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import LabelFilter from './LabelFilter';
 
-function AppHeader({ submitForm }) {
+function AppHeader({ submitForm, selectedLabels, addSelectedLabel, removeSelectedLabel }) {
   const [open, setOpen] = React.useState(false);
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
 
   return (
     <>
-      <Box className="AppTitle" sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
         <Typography variant="h4" component="h1">
           Bookmarks
         </Typography>
@@ -21,6 +22,9 @@ function AppHeader({ submitForm }) {
           <AddIcon sx={{ color: "black" }} />
         </Fab>
       </Box>
+
+      <LabelFilter selectedLabels={selectedLabels} addSelectedLabel={addSelectedLabel} removeSelectedLabel={removeSelectedLabel} />
+
       <Modal
           open={open}
           onClose={handleModalClose} 

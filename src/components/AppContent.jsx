@@ -4,7 +4,7 @@ import { getBookmarks } from '../utils/local-storage-handler';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-function AppContent({ formSubmitted, submitForm, resetForm }) {
+function AppContent({ formSubmitted, submitForm, resetForm, selectedLabels }) {
   const [bookmarks, setBookmarks] = useState([]);
 
   useEffect(() => {

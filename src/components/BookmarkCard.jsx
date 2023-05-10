@@ -67,7 +67,7 @@ const card = ((bookmark, handleModalOpen, deleteThisBookmark) => {
   return(
     <Card
       variant="outlined"
-      sx={{ border: "2px solid black", borderRadius: '12px', minWidth: '200px' }}
+      sx={{ border: "2px solid black", borderRadius: '12px', minWidth: '200px', boxShadow: "6px 6px" }}
     >
       <Grid container>
         <Grid item xs={10} sx={{ display: 'flex', alignItems: 'center' }}>

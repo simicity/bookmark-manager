@@ -76,7 +76,7 @@ function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
           </Stack>
           <Stack spacing={1} direction="row" sx={{display: "flex", justifyContent: "right"}}>
             <Button onClick={handleModalClose}>Cancel</Button>
-            <Button type="submit" variant="contained">{type === 'add' ? 'Add' : 'Update'}</Button>
+            <Button type="submit" variant="contained" sx={{ border: "2px solid black" }}>{type === 'add' ? 'Add' : 'Update'}</Button>
           </Stack>
         </form>
       </Box>

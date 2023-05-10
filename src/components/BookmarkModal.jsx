@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useState, useEffect } from 'react';
 import { createBookmark, updateBookmark } from '../utils/local-storage-handler';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -6,6 +7,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import FormHelperText from '@mui/material/FormHelperText';
+import Chip from '@mui/material/Chip';
+import { styled } from '@mui/material/styles';
+import { getAllLabels } from '../utils/local-storage-handler';
 
 const style = {
   position: 'absolute',
@@ -20,10 +24,27 @@ const style = {
   p: 4,
 };
 
+const ListItem = styled('li')(({ theme }) => ({
+  margin: theme.spacing(0.5),
+}));
+
 function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
   const { register, handleSubmit } = useForm();
+  const [labels, setLabels] = useState([]);
+  const [selectedLabels, setSelectedLabels] = useState(type == 'add' ? [] : bookmark.labels);
+  const addSelectedLabel = (label) => setSelectedLabels([...selectedLabels, label]);
+  const removeSelectedLabel = (label) => setSelectedLabels(selectedLabels.filter(e => e !== label));
+
+  const handleClick = (label) => () => {
+    if (selectedLabels.includes(label)) {
+      removeSelectedLabel(label);
+    } else {
+      addSelectedLabel(label);
+    }
+  };
 
   const onSubmit = async (data) => {
+    Object.assign(data, {"labels": selectedLabels});
     if (type === 'add') {
       await createBookmark(data).
       then(() => {
@@ -38,6 +59,15 @@ function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
       });
     }
   };
+
+  useEffect(() => {
+    async function loadLabels() {
+      await getAllLabels()
+      .then((labels) => setLabels(Array.from(labels)));
+    }
+
+    loadLabels(); 
+  }, []);
 
   return (
     <>
@@ -74,6 +104,31 @@ function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
                 {...register("url", { required: true, maxLength: 1000 })}
                 />
           </Stack>
+          <FormHelperText sx={{ color: "black", ml: 1 }}>Labels</FormHelperText>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'start',
+              flexWrap: 'wrap',
+              listStyle: 'none',
+              p: 0.5,
+              m: 0
+            }}
+            component="ul"
+          >
+            {labels.map((label) => {
+              return (
+                <ListItem key={label}>
+                  <Chip
+                    size="small"
+                    label={label}
+                    color ={ selectedLabels.includes(label) ? "secondary" : "default"}
+                    onClick={handleClick(label)}
+                  />
+                </ListItem>
+              );
+            })}
+          </Box>
           <Stack spacing={1} direction="row" sx={{display: "flex", justifyContent: "right"}}>
             <Button onClick={handleModalClose}>Cancel</Button>
             <Button type="submit" variant="contained" sx={{ border: "2px solid black" }}>{type === 'add' ? 'Add' : 'Update'}</Button>

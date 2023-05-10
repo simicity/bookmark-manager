@@ -14,30 +14,11 @@ import sortBy from "sort-by";
   )
 ------------------------ */
 
-// localforage.clear();
-// setBookmarks([
-//   {
-//     id: 0,
-//     name: "TNW",
-//     url: "https://thenextweb.com/",
-//     labels: ['news']
-//   },
-//   {
-//     id: 1,
-//     name: "Tech Crunch",
-//     url: "https://techcrunch.com/",
-//     labels: ['tech', 'news']
-
-//   },
-//   {
-//     id: 2,
-//     name: "The Verge",
-//     url: "https://www.theverge.com/",
-//     labels: ['blog', 'tech']
-//   },
-// ]);
-
-// setLabels(new Set(['news', 'blog', 'tech']));
+/* ------------------------
+  Labels (
+    label
+  )
+------------------------ */
 
 // fake a cache so we don't slow down stuff we've already seen
 let fakeCache = {};
@@ -48,8 +29,12 @@ export async function getAllLabels() {
 }
 
 export async function addLabel(label) {
-  const labels = await getAllLabels();
-  labels.add(label);
+  let labels = await getAllLabels();
+  if (labels == null) {
+    labels = new Set([label]);
+  } else {
+    labels.add(label);
+  }
   await setLabels(labels);
   return labels;
 }
@@ -64,6 +49,7 @@ export async function deleteLabel(label) {
 export async function getBookmarks(labels) {
   await fakeNetwork(`getBookmarks:${labels}`);
   let bookmarks = await localforage.getItem("bookmarks");
+  if (bookmarks == null) return [];
   let matchedBookmarks = [];
   if (labels && labels.length > 0) {
     for (let label of labels) {

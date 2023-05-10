@@ -35,13 +35,12 @@ export default function LabelFilter({ selectedLabels, addSelectedLabel, removeSe
     async function loadLabels() {
       await getAllLabels()
       .then((labels) => {
-        setLabels(Array.from(labels));  
+        if(labels) setLabels(Array.from(labels));  
       });
     }
 
     loadLabels();
     resetForm();
-    console.log("in")
   }, [formSubmitted]);
 
   return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import BookmarkModal from './BookmarkModal';
 import Box from '@mui/material/Box';
@@ -8,7 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import LabelFilter from './LabelFilter';
 
 function AppHeader({ submitForm, selectedLabels, addSelectedLabel, removeSelectedLabel }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
 

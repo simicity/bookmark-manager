@@ -12,6 +12,12 @@ import { deleteBookmark } from '../utils/local-storage-handler';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { styled } from '@mui/material/styles';
+import Chip from '@mui/material/Chip';
+
+const ListItem = styled('li')(({ theme }) => ({
+  margin: theme.spacing(0.5),
+}));
 
 const getFavicon = ((url) => {
   return 'http://www.google.com/s2/favicons?domain=' + url;
@@ -80,7 +86,7 @@ const card = ((bookmark, handleModalOpen, deleteThisBookmark) => {
                 alt={bookmark.name.charAt(0)}
               />
               <Typography component="div" variant="body1" sx={{ 
-                m: 1, 
+                mt: 1, 
                 textOverflow: "ellipsis", 
                 overflow: 'hidden', 
                 display: '-webkit-box',
@@ -89,6 +95,26 @@ const card = ((bookmark, handleModalOpen, deleteThisBookmark) => {
                 }}>
                 {bookmark.name}
               </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'start',
+                flexWrap: 'wrap',
+                listStyle: 'none',
+                p: 0.5,
+              }}
+              component="ul"
+            >
+              {bookmark.labels.map((label) => {
+                return (
+                  <ListItem key={label}>
+                    <Chip
+                      label={label}
+                    />
+                  </ListItem>
+                );
+              })}
             </Box>
           </Link>
         </Grid>

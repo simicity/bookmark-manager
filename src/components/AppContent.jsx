@@ -9,15 +9,14 @@ function AppContent({ formSubmitted, submitForm, resetForm, selectedLabels }) {
 
   useEffect(() => {
     async function loadBookmarks() {
-      await getBookmarks()
+      await getBookmarks(selectedLabels)
       .then((bookmarks) => setBookmarks(bookmarks));
     }
 
     loadBookmarks();
     resetForm();  
-  }, [formSubmitted, resetForm]);
+  }, [formSubmitted, resetForm, selectedLabels]);
 
-  console.log(bookmarks);
   return (
     <Grid container spacing={3}>
       {bookmarks && bookmarks.length > 0 ? (

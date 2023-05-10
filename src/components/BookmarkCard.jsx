@@ -103,6 +103,7 @@ const card = ((bookmark, handleModalOpen, deleteThisBookmark) => {
                 flexWrap: 'wrap',
                 listStyle: 'none',
                 p: 0.5,
+                m: 0
               }}
               component="ul"
             >
@@ -110,6 +111,7 @@ const card = ((bookmark, handleModalOpen, deleteThisBookmark) => {
                 return (
                   <ListItem key={label}>
                     <Chip
+                      size="small"
                       label={label}
                     />
                   </ListItem>

@@ -15,7 +15,7 @@ function AppHeader({ submitForm, selectedLabels, addSelectedLabel, removeSelecte
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4" component="h1">
+        <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>
           Bookmarks
         </Typography>
         <Fab size="small" color="primary" sx={{ boxShadow: "none", border: "2px solid black" }} aria-label="add" onClick={handleModalOpen}>

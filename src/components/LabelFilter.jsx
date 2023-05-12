@@ -6,18 +6,25 @@ import AddIcon from '@mui/icons-material/Add';
 import { getAllLabels } from '../utils/local-storage-handler';
 import Modal from '@mui/material/Modal';
 import { AddLabelModal, DeleteLabelModal } from './LabelModal';
+import { useSelector, useDispatch } from 'react-redux';
+import { resetForm } from '../slices/form';
+import { addSelectedLabel, removeSelectedLabel } from '../slices/selectedLabels';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-export default function LabelFilter({ selectedLabels, addSelectedLabel, removeSelectedLabel }) {
+export default function LabelFilter() {
+  const formSubmitted = useSelector(state => state.formSubmitted.flag);
+  const selectedLabels = useSelector(state => state.selectedLabels.labels);
+  const dispatch = useDispatch();
+
   const [labels, setLabels] = useState([]);
   const handleClick = (label) => () => {
     if(selectedLabels.includes(label)) {
-      removeSelectedLabel(label);
+      dispatch(removeSelectedLabel(label));
     } else {
-      addSelectedLabel(label);
+      dispatch(addSelectedLabel(label));
     }
   };
 
@@ -27,9 +34,6 @@ export default function LabelFilter({ selectedLabels, addSelectedLabel, removeSe
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const handleDeleteModalOpen = () => setOpenDeleteModal(true);
   const handleDeleteModalClose = () => setOpenDeleteModal(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const submitForm = () => setFormSubmitted(true);
-  const resetForm = () => setFormSubmitted(false);
 
   useEffect(() => {
     async function loadLabels() {
@@ -40,8 +44,8 @@ export default function LabelFilter({ selectedLabels, addSelectedLabel, removeSe
     }
 
     loadLabels();
-    resetForm();
-  }, [formSubmitted]);
+    dispatch(resetForm());
+  }, [dispatch, formSubmitted]);
 
   return (
     <>
@@ -73,7 +77,7 @@ export default function LabelFilter({ selectedLabels, addSelectedLabel, removeSe
                   aria-describedby="modal-modal-description"
               >
                 <div>
-                  <DeleteLabelModal label={label} submitForm={submitForm} handleModalClose={handleDeleteModalClose}/>
+                  <DeleteLabelModal label={label} handleModalClose={handleDeleteModalClose}/>
                 </div>
               </Modal>
             </ListItem>
@@ -99,7 +103,7 @@ export default function LabelFilter({ selectedLabels, addSelectedLabel, removeSe
             aria-describedby="modal-modal-description"
         >
           <div>
-            <AddLabelModal submitForm={submitForm} handleModalClose={handleAddModalClose}/>
+            <AddLabelModal handleModalClose={handleAddModalClose}/>
           </div>
         </Modal>
       </Box>

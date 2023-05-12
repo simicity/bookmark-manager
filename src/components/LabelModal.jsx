@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import FormHelperText from '@mui/material/FormHelperText';
+import { useDispatch } from 'react-redux';
+import { submitForm } from '../slices/form';
 
 const style = {
   position: 'absolute',
@@ -20,10 +22,12 @@ const style = {
   p: 4,
 };
 
-function DeleteLabelModal({ label, submitForm, handleModalClose }) {
+function DeleteLabelModal({ label, handleModalClose }) {
+  const dispatch = useDispatch();
+
   const handleClick = async () => {
     await deleteLabel(label);
-    submitForm();
+    dispatch(submitForm());
     handleModalClose();
   };
 
@@ -45,12 +49,13 @@ function DeleteLabelModal({ label, submitForm, handleModalClose }) {
   );
 }
 
-function AddLabelModal({ submitForm, handleModalClose }) {
+function AddLabelModal({ handleModalClose }) {
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
     await addLabel(data.label);
-    submitForm();
+    dispatch(submitForm());
     handleModalClose();
   };
 

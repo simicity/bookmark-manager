@@ -7,7 +7,7 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import LabelFilter from './LabelFilter';
 
-function AppHeader({ submitForm, selectedLabels, addSelectedLabel, removeSelectedLabel }) {
+function AppHeader() {
   const [open, setOpen] = useState(false);
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
@@ -23,7 +23,7 @@ function AppHeader({ submitForm, selectedLabels, addSelectedLabel, removeSelecte
         </Fab>
       </Box>
 
-      <LabelFilter selectedLabels={selectedLabels} addSelectedLabel={addSelectedLabel} removeSelectedLabel={removeSelectedLabel} />
+      <LabelFilter />
 
       <Modal
           open={open}
@@ -32,7 +32,7 @@ function AppHeader({ submitForm, selectedLabels, addSelectedLabel, removeSelecte
           aria-describedby="modal-modal-description"
       >
         <div>
-          <BookmarkModal type="add" handleModalClose={handleModalClose} submitForm={submitForm} />
+          <BookmarkModal type="add" handleModalClose={handleModalClose} />
         </div>
       </Modal>
     </>

@@ -9,4 +9,5 @@ Bookmark manager that allows you to tag multiple labels. Once you create new lab
 ## Key Tools Used
 - [React](https://react.dev/)
 - [React Hook Form](https://react-hook-form.com/)
+- [Redux](https://redux.js.org/)
 - [Material UI](https://mui.com/)

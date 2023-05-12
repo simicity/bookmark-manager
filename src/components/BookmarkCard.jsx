@@ -14,6 +14,9 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
+import { useDispatch } from 'react-redux';
+import { submitForm } from '../slices/form';
+
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -128,13 +131,15 @@ const card = ((bookmark, handleModalOpen, deleteThisBookmark) => {
   );
 });
 
-function BookmarkCard({ bookmark, submitForm }) {
+function BookmarkCard({ bookmark }) {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
   const deleteThisBookmark = async() => {
     await deleteBookmark(bookmark.id);
-    submitForm();
+    dispatch(submitForm());
   };
 
   return (
@@ -148,7 +153,7 @@ function BookmarkCard({ bookmark, submitForm }) {
         aria-describedby="modal-modal-description"
       >
         <div>
-          <BookmarkModal type="update" bookmark={bookmark} handleModalClose={handleModalClose} submitForm={submitForm} />
+          <BookmarkModal type="update" bookmark={bookmark} handleModalClose={handleModalClose} />
         </div>
       </Modal>
     </>

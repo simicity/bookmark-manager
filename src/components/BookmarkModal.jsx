@@ -10,6 +10,8 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 import { getAllLabels } from '../utils/local-storage-handler';
+import { useDispatch } from 'react-redux';
+import { submitForm } from '../slices/form';
 
 const style = {
   position: 'absolute',
@@ -28,7 +30,8 @@ const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
+function BookmarkModal({ type, bookmark, handleModalClose }) {
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const [labels, setLabels] = useState([]);
   const [selectedLabels, setSelectedLabels] = useState(type == 'add' ? [] : bookmark.labels);
@@ -48,13 +51,13 @@ function BookmarkModal({ type, bookmark, handleModalClose, submitForm }) {
     if (type === 'add') {
       await createBookmark(data).
       then(() => {
-        submitForm();
+        dispatch(submitForm());
         handleModalClose();  
       });
     } else if (type === 'update') {
       await updateBookmark(bookmark.id, data).
       then(() => {
-        submitForm();
+        dispatch(submitForm());
         handleModalClose();
       });
     }
